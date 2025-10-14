@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cell Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#/" class="brand">
+        <span class="logo" aria-hidden="true">📱</span>
+        <span class="brand-name">Cell Shop</span>
+      </a>
+      <div class="search-filters">
+        <input id="searchInput" type="search" placeholder="Search phones..." aria-label="Search products" />
+        <select id="brandFilter" aria-label="Filter by brand">
+          <option value="">All brands</option>
+        </select>
+        <div class="price-filter">
+          <label for="priceRange">Max price: <span id="priceRangeValue"></span></label>
+          <input id="priceRange" type="range" min="100" max="2000" step="50" value="2000" />
+        </div>
+      </div>
+      <nav class="header-actions">
+        <a class="checkout-link" href="#/checkout" aria-label="Go to checkout">Checkout</a>
+        <button id="cartButton" class="cart-button" aria-haspopup="dialog" aria-controls="cartDrawer">
+          <span>Cart</span>
+          <span id="cartCount" class="badge">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="app">
+    <section id="catalog-view" class="container">
+      <div id="productGrid" class="product-grid" aria-live="polite"></div>
+    </section>
+
+    <section id="checkout-view" class="container" hidden>
+      <div class="checkout-layout">
+        <form id="checkoutForm" novalidate>
+          <h2>Checkout</h2>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="fullName">Full name</label>
+              <input id="fullName" name="fullName" type="text" required />
+              <p class="field-hint">As it appears on your ID</p>
+            </div>
+            <div class="form-field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required />
+            </div>
+            <div class="form-field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" required pattern="^[+0-9\-()\s]{7,}$" />
+            </div>
+            <div class="form-field">
+              <label for="address">Address</label>
+              <input id="address" name="address" type="text" required />
+            </div>
+            <div class="form-field">
+              <label for="city">City</label>
+              <input id="city" name="city" type="text" required />
+            </div>
+            <div class="form-field">
+              <label for="state">State/Province</label>
+              <input id="state" name="state" type="text" required />
+            </div>
+            <div class="form-field">
+              <label for="zip">ZIP/Postal code</label>
+              <input id="zip" name="zip" type="text" required />
+            </div>
+            <div class="form-field">
+              <label for="payment">Payment method</label>
+              <select id="payment" name="payment" required>
+                <option value="">Select...</option>
+                <option>Credit card</option>
+                <option>Debit card</option>
+                <option>PayPal</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="primary">Place order</button>
+          <a href="#/" class="secondary-link">Back to shop</a>
+          <p id="checkoutMessage" class="success" hidden>Order placed! Check your email for confirmation.</p>
+        </form>
+
+        <aside class="order-summary">
+          <h3>Order summary</h3>
+          <div id="summaryItems" class="summary-items"></div>
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="summarySubtotal">$0.00</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span id="summaryShipping">$0.00</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total</span>
+            <span id="summaryTotal">$0.00</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <aside id="cartDrawer" class="drawer" aria-hidden="true" role="dialog" aria-label="Shopping cart">
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+    <div class="drawer-panel">
+      <header class="drawer-header">
+        <h2>Shopping cart</h2>
+        <button id="closeCart" class="icon-button" aria-label="Close cart">✕</button>
+      </header>
+      <div id="cartItems" class="cart-items"></div>
+      <footer class="drawer-footer">
+        <div class="cart-totals">
+          <span>Subtotal</span><span id="cartSubtotal">$0.00</span>
+        </div>
+        <div class="drawer-actions">
+          <a href="#/checkout" id="goToCheckout" class="primary">Checkout</a>
+          <button id="clearCart" class="secondary">Clear cart</button>
+        </div>
+      </footer>
+    </div>
+  </aside>
+
+  <div id="productModal" class="modal" aria-hidden="true" role="dialog" aria-label="Product details">
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal-dialog" role="document">
+      <header class="modal-header">
+        <h3 id="modalTitle">Product</h3>
+        <button id="closeModal" class="icon-button" aria-label="Close">✕</button>
+      </header>
+      <div class="modal-body" id="modalBody"></div>
+      <footer class="modal-footer">
+        <button id="modalAddToCart" class="primary">Add to cart</button>
+      </footer>
+    </div>
+  </div>
+
+  <template id="productCardTemplate">
+    <article class="product-card">
+      <div class="product-media">
+        <img class="product-image" alt="Phone" loading="lazy"/>
+        <span class="product-badge">New</span>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title"></h3>
+        <div class="product-meta">
+          <span class="product-brand"></span>
+          <span class="product-rating"></span>
+        </div>
+        <div class="product-price"></div>
+        <div class="product-actions">
+          <button class="secondary quick-view">Quick view</button>
+          <button class="primary add-to-cart">Add to cart</button>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="./app.js" type="module"></script>
+</body>
+</html>
