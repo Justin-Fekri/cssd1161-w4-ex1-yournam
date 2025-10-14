@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+html, body, #root {
+  height: 100%;
+}
+
+/* App-wide utility tweaks */
+.container {
+  @apply mx-auto px-4 sm:px-6 lg:px-8;
+}
