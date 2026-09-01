@@ -66,6 +66,38 @@ are backed by real work and stay. A second pass then went after impact rather th
 
 Still one page, which Mohsen called out as a strength.
 
+## EY alignment pass (third revision)
+
+Goal: fill a full page, sharpen the fit to EY, and make the EY tooling explicit.
+
+- **EY tooling promoted to its own skills line.** `EY Platforms & Responsible AI: EY.ai, EYQ,
+  FlexiGenAI, Responsible AI framework; aligned to EY AI & Data, Digital Engineering, and
+  Technology Risk` now leads the skills block instead of sitting as a trailing clause in the
+  summary, where a skim would miss it.
+- **`RESPONSIBLE AI` added to the header tagline**, matching how EY frames the practice.
+- **The RAG project moved to the top of Selected AI Projects.** It is the most EY-shaped thing
+  on the page — retrieval over audit procedures, risk reports and cybersecurity documentation,
+  with citations, abstention and role-based access. The bullet now names those document classes
+  as "the document classes an assurance team works in".
+- **Governance framing made explicit where it was already true.** The credit-risk bullet now
+  says decision support, not automatic approval, "the control a regulated lender is required to
+  evidence"; the imaging bullet states the educational/research-only claim boundary. Both were
+  facts already in the resume — they are now stated in the language a Technology Risk reviewer
+  uses.
+- **Explainability split into its own bullet** on the credit-risk project rather than being
+  buried in a sentence about approvals.
+- **Auto-fit.** `fit.py` renders at successive type sizes and keeps the largest that still holds
+  one page. Result: **9.0pt, one page, about 95% full**. 9.1pt spills to a second page.
+
+### Cut in this pass
+
+The one-line descriptions under Additional Experience were removed. They were written by
+inference from the job titles rather than from anything stated, and on an AI resume those three
+roles earn their place as dates and titles only. Cutting them freed the space that let the type
+go from 8.6pt (too small to be professional) to 9.0pt.
+
+---
+
 ### The one thing that would raise this further
 
 Every bullet describes *what was done*, none says *how well*. Numbers are what separate a good

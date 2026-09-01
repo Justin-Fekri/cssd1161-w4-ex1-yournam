@@ -4,63 +4,67 @@
 <meta charset="utf-8" />
 <title>Mohsen Fekri - Resume</title>
 <style>
-  @page { size: Letter; margin: 0.38in 0.55in; }
+  @page { size: Letter; margin: 0.36in 0.52in; }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: "Liberation Serif", "Times New Roman", Georgia, serif;
-         font-size: 9.05pt; line-height: 1.19; color: #111; }
-  .name { text-align: center; font-size: 19pt; font-weight: 700; color: #1F3B63;
+         font-size: 9.0pt; line-height: 11.835pt; color: #111; }
+  .name { text-align: center; font-size: 19.17pt; font-weight: 700; color: #1F3B63;
           letter-spacing: .5px; margin: 0 0 1pt; }
-  .tagline { text-align: center; font-size: 10pt; font-weight: 700; margin: 0 0 2pt; }
-  .contact { text-align: center; font-size: 9.2pt; color: #555; margin: 0 0 4pt; }
-  h2 { font-size: 9.9pt; color: #1F3B63; text-transform: uppercase; letter-spacing: .4px;
-       margin: 5pt 0 2pt; padding-bottom: 1.2pt; border-bottom: 1px solid #1F3B63; }
+  .tagline { text-align: center; font-size: 9.81pt; font-weight: 700; margin: 0 0 2pt; }
+  .contact { text-align: center; font-size: 9.09pt; color: #555; margin: 0 0 3pt; }
+  h2 { font-size: 9.72pt; color: #1F3B63; text-transform: uppercase; letter-spacing: .4px;
+       margin: 4.95pt 0 2pt; padding-bottom: 1.2pt; border-bottom: 1px solid #1F3B63; }
   p { margin: 0 0 2pt; }
-  .role { font-weight: 700; font-size: 10pt; }
+  .role { font-weight: 700; font-size: 9.54pt; }
   .meta { color: #555; }
   .sub { font-style: italic; color: #555; margin-bottom: 2pt; }
   ul { margin: 1pt 0 2pt; padding-left: 13pt; }
   li { margin: 0 0 1pt; }
   .entry { margin-top: 2pt; }
   .skill { margin-bottom: 1.5pt; }
+  .addl { margin-bottom: 2pt; }
+  .addl .desc { color: #333; }
 </style>
 </head>
 <body>
 
 <div class="name">MOHSEN FEKRI</div>
-<div class="tagline">AI &amp; DATA  |  MACHINE LEARNING  |  COMPUTER VISION</div>
+<div class="tagline">AI &amp; DATA  |  MACHINE LEARNING  |  COMPUTER VISION  |  RESPONSIBLE AI</div>
 <div class="contact">justinfe@my.yorku.ca  |  (437) 556-5959  |  github.com/Justin-Fekri  |  Toronto, Canada</div>
 <h2>Professional Summary</h2>
-<p>AI and machine learning practitioner who builds end-to-end: faculty-led research in spatio-temporal medical-image segmentation, credit-risk models designed for human review, and enterprise RAG with page-level citations and role-based access. Comfortable where models meet production — imbalanced data, evaluation trade-offs, model drift, and inference optimization. Pursuing a BASc in Computer Science for Software Development (Co-op) at York University, Lassonde School of Engineering. Aligned to EY AI &amp; Data, Digital Engineering, and Technology Risk, with working knowledge of EY.ai, EYQ, FlexiGenAI, and Responsible AI.</p>
+<p>AI and machine learning practitioner who builds end-to-end and designs for review: faculty-led research in spatio-temporal medical-image segmentation, credit-risk scoring with explainable output and a human in the loop, and an enterprise RAG assistant over audit, risk, and cybersecurity documentation. Comfortable where models meet production and governance — imbalanced data, evaluation trade-offs, model drift, inference optimization, and role-based access. Pursuing a BASc in Computer Science for Software Development (Co-op) at York University, Lassonde School of Engineering.</p>
 <h2>Technical Skills</h2>
+<p class="skill"><b>EY Platforms &amp; Responsible AI:</b> EY.ai, EYQ, FlexiGenAI, Responsible AI framework; aligned to EY AI &amp; Data, Digital Engineering, and Technology Risk</p>
 <p class="skill"><b>AI &amp; Machine Learning:</b> PyTorch, MONAI, computer vision, segmentation, classification, spatio-temporal modelling, model evaluation (precision, recall, F1, ROC-AUC), imbalanced data, model drift, explainable AI</p>
-<p class="skill"><b>GenAI &amp; Agents:</b> RAG, MCP (Model Context Protocol), OpenAI-compatible API standard, vector databases, LangChain/LlamaIndex, RAGAS evaluation, Responsible AI</p>
+<p class="skill"><b>GenAI &amp; Agents:</b> RAG, MCP (Model Context Protocol), OpenAI-compatible API standard, vector databases, LangChain/LlamaIndex, RAGAS evaluation, prompt and retrieval evaluation</p>
 <p class="skill"><b>Engineering &amp; Data:</b> Python, SQL, Java, JavaScript, Pandas (DataFrames), NumPy, Scikit-learn, XGBoost, FastAPI, Streamlit, Gradio, Docker, Kubernetes, TensorRT, Git</p>
 <h2>AI Research Experience</h2>
 <div class="entry">
   <span class="role">Undergraduate Research Award (UGRA) &amp; Teaching Assistant</span><span class="meta">  |  York University  |  </span><b>2025</b>
   <div class="sub">Supervisor: Prof. Navid Mohaghegh  —  Spatio-Temporal Ultrasound Needle Segmentation</div>
   <ul>
-    <li>Held a <b>UGRA</b> research award for AI-assisted needle localization in ultrasound, alongside teaching assistant duties for Prof. Mohaghegh.</li>
+    <li>Selected for a <b>York Undergraduate Research Award</b> to work on AI-assisted needle localization in ultrasound, alongside teaching assistant duties for Prof. Mohaghegh.</li>
     <li>Built a PyTorch and MONAI segmentation pipeline pairing Swin Transformer <b>spatial</b> feature extraction with ConvLSTM <b>temporal</b> modelling across frames.</li>
-    <li>Drove preprocessing, model development, and frame-level evaluation on sequential ultrasound, scoring segmentation quality with Dice and IoU.</li>
+    <li>Drove preprocessing, model development, and frame-level evaluation on sequential ultrasound, scoring segmentation quality with <b>Dice and IoU</b>.</li>
   </ul>
 </div>
 <h2>Selected AI Projects</h2>
+<div class="entry">
+  <span class="role">Enterprise Document Question-Answering Assistant</span><span class="meta">  |  Python  |  RAG  |  MCP  |  FastAPI  |  Gradio  |  RAGAS  |  </span><b>2026</b>
+  <ul>
+    <li>Shipped a RAG assistant over company policies, <b>audit procedures, risk reports, and cybersecurity documentation</b> in PDF and Word — the document classes an assurance team works in.</li>
+    <li>Exposed retrieval as <b>MCP</b> tools behind an OpenAI-compatible API so agentic clients can drive the assistant directly.</li>
+    <li>Returned <b>page-level citations</b> and abstained when the corpus lacked evidence, rather than answering from thin retrieval.</li>
+    <li>Tuned chunking and retrieval against <b>RAGAS</b> faithfulness scores, behind <b>role-based permissions</b> so each user retrieves only what their role allows.</li>
+  </ul>
+</div>
 <div class="entry">
   <span class="role">AI Credit Risk &amp; Loan Decision Support System</span><span class="meta">  |  Python  |  Scikit-learn  |  XGBoost  |  Explainable AI  |  </span><b>2026</b>
   <ul>
     <li>Modelled borrower credit history and financial attributes to estimate loan eligibility and default risk.</li>
     <li>Tuned against a heavily <b>imbalanced</b> default population, weighing false positives against false negatives across precision, recall, F1, ROC-AUC, and confusion-matrix analysis.</li>
-    <li>Surfaced the features driving each decision and framed output as decision support, keeping the final lending call with a human reviewer.</li>
-  </ul>
-</div>
-<div class="entry">
-  <span class="role">Enterprise Document Question-Answering Assistant</span><span class="meta">  |  Python  |  RAG  |  MCP  |  FastAPI  |  Gradio  |  RAGAS  |  </span><b>2026</b>
-  <ul>
-    <li>Shipped a RAG assistant over company policies, audit procedures, risk reports, and cybersecurity documentation in PDF and Word.</li>
-    <li>Exposed retrieval as <b>MCP</b> tools behind an OpenAI-compatible API so agentic clients can drive the assistant directly.</li>
-    <li>Returned page-level citations and abstained when the corpus lacked evidence, rather than answering from thin retrieval.</li>
-    <li>Tuned chunking and retrieval against <b>RAGAS</b> faithfulness scores, behind role-based permissions.</li>
+    <li>Surfaced the features driving each decision through <b>explainable-AI</b> output, so a reviewer can see why an applicant scored the way they did.</li>
+    <li>Framed the system as <b>decision support, not automatic approval</b>, keeping the final lending call with a human — the control a regulated lender is required to evidence.</li>
   </ul>
 </div>
 <div class="entry">
@@ -68,7 +72,7 @@
   <ul>
     <li>Trained a CNN classifier that standardizes images to 224 x 224 RGB, with a sigmoid probability and an adjustable decision threshold.</li>
     <li>Cut model size and inference latency with <b>TensorRT</b> quantization and pruning, tracking the accuracy trade-off at each step.</li>
-    <li>Added visual interpretability for reviewer oversight, labelled clearly as educational and research-only rather than diagnostic.</li>
+    <li>Added visual interpretability for reviewer oversight, with output labelled explicitly as <b>educational and research-only, not diagnostic</b>.</li>
   </ul>
 </div>
 <h2>Education</h2>
@@ -76,11 +80,11 @@
   <span class="role">York University, Lassonde School of Engineering</span><span class="meta">  |  Toronto (Markham Campus)  |  </span><b>Expected 2029</b>
   <div class="meta">Bachelor of Applied Science (BASc), Computer Science for Software Development, Co-op  |  GPA: 6.7/9.0</div>
 </div>
-<h2>Additional Experience</h2>
-<p><b>Operations Assistant</b><span class="meta">  |  York University  |  </span><b>May 2026 - Sep 2026</b></p>
-<p><b>Program &amp; Administrative Assistant</b><span class="meta">  |  YMCA of Greater Toronto  |  </span><b>Dec 2024 - Jan 2026</b></p>
-<p><b>IT Support &amp; Lab Assistant, Volunteer</b><span class="meta">  |  Toronto Public Library  |  </span><b>Mar 2023 - Sep 2023</b></p>
 <h2>Certification In Progress</h2>
 <p><b>AI-103: Developing AI Apps and Agents on Azure</b><span class="meta">  |  Microsoft  |  </span><b>In Progress</b></p>
+<h2>Additional Experience</h2>
+<p class="addl"><b>Operations Assistant</b><span class="meta">  |  York University  |  </span><b>May 2026 - Sep 2026</b></p>
+<p class="addl"><b>Program &amp; Administrative Assistant</b><span class="meta">  |  YMCA of Greater Toronto  |  </span><b>Dec 2024 - Jan 2026</b></p>
+<p class="addl"><b>IT Support &amp; Lab Assistant, Volunteer</b><span class="meta">  |  Toronto Public Library  |  </span><b>Mar 2023 - Sep 2023</b></p>
 </body>
 </html>
