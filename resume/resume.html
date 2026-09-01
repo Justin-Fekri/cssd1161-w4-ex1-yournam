@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Mohsen Fekri - Resume</title>
+<style>
+  @page { size: Letter; margin: 0.38in 0.55in; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Liberation Serif", "Times New Roman", Georgia, serif;
+         font-size: 9.05pt; line-height: 1.19; color: #111; }
+  .name { text-align: center; font-size: 19pt; font-weight: 700; color: #1F3B63;
+          letter-spacing: .5px; margin: 0 0 1pt; }
+  .tagline { text-align: center; font-size: 10pt; font-weight: 700; margin: 0 0 2pt; }
+  .contact { text-align: center; font-size: 9.2pt; color: #555; margin: 0 0 4pt; }
+  h2 { font-size: 9.9pt; color: #1F3B63; text-transform: uppercase; letter-spacing: .4px;
+       margin: 5pt 0 2pt; padding-bottom: 1.2pt; border-bottom: 1px solid #1F3B63; }
+  p { margin: 0 0 2pt; }
+  .role { font-weight: 700; font-size: 10pt; }
+  .meta { color: #555; }
+  .sub { font-style: italic; color: #555; margin-bottom: 2pt; }
+  ul { margin: 1pt 0 2pt; padding-left: 13pt; }
+  li { margin: 0 0 1pt; }
+  .entry { margin-top: 2pt; }
+  .skill { margin-bottom: 1.5pt; }
+</style>
+</head>
+<body>
+
+<div class="name">MOHSEN FEKRI</div>
+<div class="tagline">AI &amp; DATA | MACHINE LEARNING | COMPUTER VISION</div>
+<div class="contact">justinfe@my.yorku.ca &nbsp;|&nbsp; (437) 556-5959 &nbsp;|&nbsp; github.com/Justin-Fekri &nbsp;|&nbsp; Toronto, Canada</div>
+
+<h2>Professional Summary</h2>
+<p>AI and machine learning practitioner with hands-on experience in faculty-led research, spatio-temporal
+medical-image segmentation, credit-risk modelling, and enterprise RAG. Pursuing a BASc in Computer Science for
+Software Development at York University, Lassonde School of Engineering, with a 6.7/9.0 GPA. Comfortable
+discussing model evaluation on imbalanced data, model drift in production, and inference optimization. Familiar
+with EY.ai, EYQ, FlexiGenAI, and Responsible AI, with interests aligned to EY AI &amp; Data, Digital Engineering,
+and Technology Risk.</p>
+
+<h2>Technical Skills</h2>
+<p class="skill"><b>Programming &amp; Data:</b> Python, SQL, Java, JavaScript, Pandas (DataFrames), NumPy, Scikit-learn, XGBoost</p>
+<p class="skill"><b>AI &amp; Machine Learning:</b> PyTorch, MONAI, computer vision, classification, segmentation, spatio-temporal
+modelling, model evaluation (precision, recall, F1, ROC-AUC), imbalanced data, model drift, explainable AI</p>
+<p class="skill"><b>GenAI &amp; Development:</b> RAG, MCP (Model Context Protocol), OpenAI-compatible API standard, vector databases,
+LangChain/LlamaIndex, FastAPI, Streamlit, Gradio, Docker, Kubernetes, TensorRT, Git, Responsible AI</p>
+
+<h2>AI Research Experience</h2>
+<div class="entry">
+  <span class="role">Teaching Assistant &amp; AI Research Contributor</span><span class="meta"> | York University | </span><b>2025</b>
+  <div class="sub">Supervisor: Prof. Navid Mohaghegh | UGRA: Spatio-Temporal Ultrasound Needle Segmentation</div>
+  <ul>
+    <li>Teaching assistant and research contributor on AI-assisted needle localization in ultrasound sequences.</li>
+    <li>Contributed to a PyTorch and MONAI segmentation pipeline combining Swin Transformer <b>spatial</b> feature extraction with ConvLSTM <b>temporal</b> modelling across frames.</li>
+    <li>Worked with sequential ultrasound inputs and supported preprocessing, model development, and frame-level segmentation evaluation using Dice and IoU.</li>
+  </ul>
+</div>
+
+<h2>Selected AI Projects</h2>
+<div class="entry">
+  <span class="role">AI Credit Risk &amp; Loan Decision Support System</span><span class="meta"> | Python | Scikit-learn | XGBoost | Explainable AI | </span><b>2026</b>
+  <ul>
+    <li>Built a classification pipeline that analyzes borrower credit history and financial attributes to estimate loan eligibility and default risk.</li>
+    <li>Handled class imbalance in the default population and evaluated performance across precision, recall, F1-score, ROC-AUC, and confusion-matrix analysis, weighing false positives against false negatives.</li>
+    <li>Surfaced influential features for transparent review and presented predictions as decision support rather than automatic approval, keeping final lending decisions with a human reviewer.</li>
+  </ul>
+</div>
+<div class="entry">
+  <span class="role">Enterprise Document Question-Answering Assistant</span><span class="meta"> | Python | RAG | MCP | FastAPI | Gradio | RAGAS | </span><b>2026</b>
+  <ul>
+    <li>Built a RAG application that ingests PDF and Word files such as company policies, audit procedures, risk reports, and cybersecurity documentation.</li>
+    <li>Exposed retrieval as <b>MCP</b> tools behind an OpenAI-compatible API so the assistant can be driven by agentic clients.</li>
+    <li>Retrieved supporting passages, returned page-level citations, and abstained when the document collection did not contain enough evidence for an answer.</li>
+    <li>Compared chunk sizes and retrieval methods using RAGAS faithfulness and retrieval-quality evaluation, with role-based permissions.</li>
+  </ul>
+</div>
+<div class="entry">
+  <span class="role">Medical Image Cancer Detection Prototype</span><span class="meta"> | Python | PyTorch | EfficientNet-B0 | TensorRT | Streamlit | </span><b>2025</b>
+  <ul>
+    <li>Built a CNN-based prototype that standardizes each medical image to 224 x 224 RGB, produces a sigmoid probability, and applies an adjustable classification threshold.</li>
+    <li>Optimized inference with <b>TensorRT</b> quantization and pruning to reduce model size and latency while tracking the accuracy trade-off.</li>
+    <li>Added a Streamlit interface and visual interpretability for reviewer oversight, with output clearly identified as educational and research-only rather than diagnostic.</li>
+  </ul>
+</div>
+
+<h2>Education</h2>
+<div class="entry">
+  <span class="role">York University, Lassonde School of Engineering</span><span class="meta"> | Toronto (Markham Campus) | </span><b>Expected 2029</b>
+  <div class="meta">Bachelor of Applied Science (BASc), Computer Science for Software Development, Co-op | GPA: 6.7/9.0</div>
+</div>
+
+<h2>Additional Experience</h2>
+<p><b>Operations Assistant</b><span class="meta"> | York University | </span><b>May 2026 - Sep 2026</b></p>
+<p><b>Program &amp; Administrative Assistant</b><span class="meta"> | YMCA of Greater Toronto | </span><b>Dec 2024 - Jan 2026</b></p>
+<p><b>IT Support &amp; Lab Assistant, Volunteer</b><span class="meta"> | Toronto Public Library | </span><b>Mar 2023 - Sep 2023</b></p>
+
+<h2>Certification In Progress</h2>
+<p><b>AI-103: Developing AI Apps and Agents on Azure</b><span class="meta"> | Microsoft | </span><b>In Progress</b></p>
+
+</body>
+</html>
