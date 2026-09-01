@@ -4,44 +4,84 @@
 <meta charset="utf-8" />
 <title>Mohsen Fekri - Resume</title>
 <style>
-  @page { size: Letter; margin: 0.36in 0.52in; }
+  @page { size: Letter; margin: 0.4in 0.55in; }
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: "Liberation Serif", "Times New Roman", Georgia, serif;
-         font-size: 9.0pt; line-height: 11.835pt; color: #111; }
-  .name { text-align: center; font-size: 19.17pt; font-weight: 700; color: #1F3B63;
-          letter-spacing: .5px; margin: 0 0 1pt; }
-  .tagline { text-align: center; font-size: 9.81pt; font-weight: 700; margin: 0 0 2pt; }
-  .contact { text-align: center; font-size: 9.09pt; color: #555; margin: 0 0 3pt; }
-  h2 { font-size: 9.72pt; color: #1F3B63; text-transform: uppercase; letter-spacing: .4px;
-       margin: 4.95pt 0 2pt; padding-bottom: 1.2pt; border-bottom: 1px solid #1F3B63; }
-  p { margin: 0 0 2pt; }
-  .role { font-weight: 700; font-size: 9.54pt; }
-  .meta { color: #555; }
-  .sub { font-style: italic; color: #555; margin-bottom: 2pt; }
-  ul { margin: 1pt 0 2pt; padding-left: 13pt; }
-  li { margin: 0 0 1pt; }
-  .entry { margin-top: 2pt; }
-  .skill { margin-bottom: 1.5pt; }
-  .addl { margin-bottom: 2pt; }
-  .addl .desc { color: #333; }
+  body { margin: 0; color: #17181A;
+          font-family: "Bitstream Charter", Charter, Georgia, serif;
+          font-size: 8.9pt; line-height: 11.3pt; }
+  .sans { font-family: "Liberation Sans", Arial, Helvetica, sans-serif; }
+
+  /* ---- header ---- */
+  header { text-align: center; padding-bottom: 2.67pt;
+            border-bottom: 1.6pt solid #1F3B63; margin-bottom: 3.74pt; }
+  .name { font-family: "Liberation Sans", Arial, sans-serif;
+           font-size: 20.47pt; font-weight: 700; color: #1F3B63;
+           letter-spacing: 2.6px; margin: 0 0 2.49pt; }
+  .tagline { font-family: "Liberation Sans", Arial, sans-serif;
+              font-size: 8.28pt; color: #1F3B63;
+              letter-spacing: .75px; margin: 0 0 2.67pt; }
+  .contact { font-size: 8.63pt; color: #5A5A5A; }
+  .contact .sep { color: #A9B6C7; padding: 0 4pt; }
+
+  /* ---- section headings ---- */
+  h2 { font-family: "Liberation Sans", Arial, sans-serif;
+        font-size: 8.01pt; font-weight: 700; color: #1F3B63;
+        text-transform: uppercase; letter-spacing: 1.5px;
+        margin: 4.45pt 0 2.31pt;
+        padding-bottom: 1.78pt; border-bottom: .8pt solid #B9C7DA; }
+
+  /* ---- entries: title left, date hard right ---- */
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 10pt; }
+  .role { font-weight: 700; font-size: 9.43pt; }
+  .date { font-family: "Liberation Sans", Arial, sans-serif;
+           font-size: 7.74pt; font-weight: 700; color: #1F3B63;
+           white-space: nowrap; letter-spacing: .3px; }
+  .org { color: #5A5A5A; font-weight: 400; }
+  .sub { color: #5A5A5A; font-style: italic; margin-top: .5pt; }
+  .stack { font-family: "Liberation Sans", Arial, sans-serif;
+            font-size: 7.57pt; color: #46617F;
+            letter-spacing: .25px; margin-top: .8pt; }
+  .entry { margin-top: 2.67pt; }
+  .addl { margin-top: 1.25pt; }
+  .entry:first-of-type { margin-top: 0; }
+
+  /* ---- bullets ---- */
+  ul { margin: 1.42pt 0 0; padding-left: 10.5pt; }
+  li { margin: 0 0 0.8pt; padding-left: 1.5pt; }
+  li::marker { color: #7E93AC; content: "▪  "; font-size: 7.12pt; }
+
+  /* ---- skills: labels in an aligned column ---- */
+  .skills { display: grid; grid-template-columns: max-content 1fr;
+             column-gap: 9pt; row-gap: 1.16pt; }
+  .skills dt { font-family: "Liberation Sans", Arial, sans-serif;
+                font-size: 7.74pt; font-weight: 700; color: #1F3B63;
+                letter-spacing: .2px; }
+  .skills dd { margin: 0; }
+
+  p { margin: 0; }
+  .summary { text-align: justify; }
 </style>
 </head>
 <body>
 
-<div class="name">MOHSEN FEKRI</div>
-<div class="tagline">AI &amp; DATA  |  MACHINE LEARNING  |  COMPUTER VISION  |  RESPONSIBLE AI</div>
-<div class="contact">justinfe@my.yorku.ca  |  (437) 556-5959  |  github.com/Justin-Fekri  |  Toronto, Canada</div>
+<header>
+  <div class="name">MOHSEN FEKRI</div>
+  <div class="tagline">AI &amp; Data  ·  Machine Learning  ·  Computer Vision  ·  Responsible AI</div>
+  <div class="contact">justinfe@my.yorku.ca<span class="sep">|</span>(437) 556-5959<span class="sep">|</span>github.com/Justin-Fekri<span class="sep">|</span>Toronto, Canada</div>
+</header>
 <h2>Professional Summary</h2>
-<p>AI and machine learning practitioner who builds end-to-end and designs for review: faculty-led research in spatio-temporal medical-image segmentation, credit-risk scoring with explainable output and a human in the loop, and an enterprise RAG assistant over audit, risk, and cybersecurity documentation. Comfortable where models meet production and governance — imbalanced data, evaluation trade-offs, model drift, inference optimization, and role-based access. Pursuing a BASc in Computer Science for Software Development (Co-op) at York University, Lassonde School of Engineering.</p>
+<p class="summary">AI and machine learning practitioner who builds end-to-end and designs for review: faculty-led research in spatio-temporal medical-image segmentation, credit-risk scoring with explainable output and a human in the loop, and an enterprise RAG assistant over audit, risk, and cybersecurity documentation. Comfortable where models meet production and governance — imbalanced data, evaluation trade-offs, model drift, inference optimization, and role-based access.</p>
 <h2>Technical Skills</h2>
-<p class="skill"><b>EY Platforms &amp; Responsible AI:</b> EY.ai, EYQ, FlexiGenAI, Responsible AI framework; aligned to EY AI &amp; Data, Digital Engineering, and Technology Risk</p>
-<p class="skill"><b>AI &amp; Machine Learning:</b> PyTorch, MONAI, computer vision, segmentation, classification, spatio-temporal modelling, model evaluation (precision, recall, F1, ROC-AUC), imbalanced data, model drift, explainable AI</p>
-<p class="skill"><b>GenAI &amp; Agents:</b> RAG, MCP (Model Context Protocol), OpenAI-compatible API standard, vector databases, LangChain/LlamaIndex, RAGAS evaluation, prompt and retrieval evaluation</p>
-<p class="skill"><b>Engineering &amp; Data:</b> Python, SQL, Java, JavaScript, Pandas (DataFrames), NumPy, Scikit-learn, XGBoost, FastAPI, Streamlit, Gradio, Docker, Kubernetes, TensorRT, Git</p>
+<dl class="skills">
+  <dt>EY Platforms &amp; Responsible AI</dt><dd>EY.ai, EYQ, FlexiGenAI, Responsible AI framework; aligned to EY AI &amp; Data, Digital Engineering, and Technology Risk</dd>
+  <dt>AI &amp; Machine Learning</dt><dd>PyTorch, MONAI, computer vision, segmentation, classification, spatio-temporal modelling, model evaluation (precision, recall, F1, ROC-AUC), imbalanced data, model drift, explainable AI</dd>
+  <dt>GenAI &amp; Agents</dt><dd>RAG, MCP (Model Context Protocol), OpenAI-compatible API standard, vector databases, LangChain/LlamaIndex, RAGAS evaluation</dd>
+  <dt>Engineering &amp; Data</dt><dd>Python, SQL, Java, JavaScript, Pandas (DataFrames), NumPy, Scikit-learn, XGBoost, FastAPI, Streamlit, Gradio, Docker, Kubernetes, TensorRT, Git</dd>
+</dl>
 <h2>AI Research Experience</h2>
 <div class="entry">
-  <span class="role">Undergraduate Research Award (UGRA) &amp; Teaching Assistant</span><span class="meta">  |  York University  |  </span><b>2025</b>
-  <div class="sub">Supervisor: Prof. Navid Mohaghegh  —  Spatio-Temporal Ultrasound Needle Segmentation</div>
+  <div class="row"><span><span class="role">Undergraduate Research Award (UGRA) &amp; Teaching Assistant</span><span class="org">&nbsp;&nbsp;|&nbsp;&nbsp;York University</span></span><span class="date">2025</span></div>
+  <div class="sub">Supervisor: Prof. Navid Mohaghegh  ·  Spatio-Temporal Ultrasound Needle Segmentation</div>
   <ul>
     <li>Selected for a <b>York Undergraduate Research Award</b> to work on AI-assisted needle localization in ultrasound, alongside teaching assistant duties for Prof. Mohaghegh.</li>
     <li>Built a PyTorch and MONAI segmentation pipeline pairing Swin Transformer <b>spatial</b> feature extraction with ConvLSTM <b>temporal</b> modelling across frames.</li>
@@ -50,7 +90,8 @@
 </div>
 <h2>Selected AI Projects</h2>
 <div class="entry">
-  <span class="role">Enterprise Document Question-Answering Assistant</span><span class="meta">  |  Python  |  RAG  |  MCP  |  FastAPI  |  Gradio  |  RAGAS  |  </span><b>2026</b>
+  <div class="row"><span><span class="role">Enterprise Document Question-Answering Assistant</span></span><span class="date">2026</span></div>
+  <div class="stack">Python · RAG · MCP · FastAPI · Gradio · RAGAS</div>
   <ul>
     <li>Shipped a RAG assistant over company policies, <b>audit procedures, risk reports, and cybersecurity documentation</b> in PDF and Word — the document classes an assurance team works in.</li>
     <li>Exposed retrieval as <b>MCP</b> tools behind an OpenAI-compatible API so agentic clients can drive the assistant directly.</li>
@@ -59,7 +100,8 @@
   </ul>
 </div>
 <div class="entry">
-  <span class="role">AI Credit Risk &amp; Loan Decision Support System</span><span class="meta">  |  Python  |  Scikit-learn  |  XGBoost  |  Explainable AI  |  </span><b>2026</b>
+  <div class="row"><span><span class="role">AI Credit Risk &amp; Loan Decision Support System</span></span><span class="date">2026</span></div>
+  <div class="stack">Python · Scikit-learn · XGBoost · Explainable AI</div>
   <ul>
     <li>Modelled borrower credit history and financial attributes to estimate loan eligibility and default risk.</li>
     <li>Tuned against a heavily <b>imbalanced</b> default population, weighing false positives against false negatives across precision, recall, F1, ROC-AUC, and confusion-matrix analysis.</li>
@@ -68,23 +110,25 @@
   </ul>
 </div>
 <div class="entry">
-  <span class="role">Medical Image Cancer Detection Prototype</span><span class="meta">  |  Python  |  PyTorch  |  EfficientNet-B0  |  TensorRT  |  Streamlit  |  </span><b>2025</b>
+  <div class="row"><span><span class="role">Medical Image Cancer Detection Prototype</span></span><span class="date">2025</span></div>
+  <div class="stack">Python · PyTorch · EfficientNet-B0 · TensorRT · Streamlit</div>
   <ul>
     <li>Trained a CNN classifier that standardizes images to 224 x 224 RGB, with a sigmoid probability and an adjustable decision threshold.</li>
     <li>Cut model size and inference latency with <b>TensorRT</b> quantization and pruning, tracking the accuracy trade-off at each step.</li>
     <li>Added visual interpretability for reviewer oversight, with output labelled explicitly as <b>educational and research-only, not diagnostic</b>.</li>
   </ul>
 </div>
-<h2>Education</h2>
+<h2>Education &amp; Certification</h2>
 <div class="entry">
-  <span class="role">York University, Lassonde School of Engineering</span><span class="meta">  |  Toronto (Markham Campus)  |  </span><b>Expected 2029</b>
-  <div class="meta">Bachelor of Applied Science (BASc), Computer Science for Software Development, Co-op  |  GPA: 6.7/9.0</div>
+  <div class="row"><span><span class="role">York University, Lassonde School of Engineering</span><span class="org">&nbsp;&nbsp;|&nbsp;&nbsp;Toronto (Markham Campus)</span></span><span class="date">Expected 2029</span></div>
+  <div class="sub">Bachelor of Applied Science (BASc), Computer Science for Software Development, Co-op  ·  GPA: 6.7/9.0</div>
 </div>
-<h2>Certification In Progress</h2>
-<p><b>AI-103: Developing AI Apps and Agents on Azure</b><span class="meta">  |  Microsoft  |  </span><b>In Progress</b></p>
+<div class="entry">
+  <div class="row"><span><span class="role">AI-103: Developing AI Apps and Agents on Azure</span><span class="org">&nbsp;&nbsp;|&nbsp;&nbsp;Microsoft</span></span><span class="date">In Progress</span></div>
+</div>
 <h2>Additional Experience</h2>
-<p class="addl"><b>Operations Assistant</b><span class="meta">  |  York University  |  </span><b>May 2026 - Sep 2026</b></p>
-<p class="addl"><b>Program &amp; Administrative Assistant</b><span class="meta">  |  YMCA of Greater Toronto  |  </span><b>Dec 2024 - Jan 2026</b></p>
-<p class="addl"><b>IT Support &amp; Lab Assistant, Volunteer</b><span class="meta">  |  Toronto Public Library  |  </span><b>Mar 2023 - Sep 2023</b></p>
+<div class="row addl"><span><b>Operations Assistant</b><span class="org">&nbsp;&nbsp;|&nbsp;&nbsp;York University</span></span><span class="date">May 2026 - Sep 2026</span></div>
+<div class="row addl"><span><b>Program &amp; Administrative Assistant</b><span class="org">&nbsp;&nbsp;|&nbsp;&nbsp;YMCA of Greater Toronto</span></span><span class="date">Dec 2024 - Jan 2026</span></div>
+<div class="row addl"><span><b>IT Support &amp; Lab Assistant, Volunteer</b><span class="org">&nbsp;&nbsp;|&nbsp;&nbsp;Toronto Public Library</span></span><span class="date">Mar 2023 - Sep 2023</span></div>
 </body>
 </html>
