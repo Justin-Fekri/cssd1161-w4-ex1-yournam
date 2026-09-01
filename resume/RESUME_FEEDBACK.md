@@ -98,45 +98,28 @@ go from 8.6pt (too small to be professional) to 9.0pt.
 
 ---
 
-## Formatting pass (fourth revision)
+## Formatting pass — reverted (fourth revision)
 
-Typographic and layout rework. No claims changed.
+A restyle was attempted and then **reverted at Justin's request**. It had swapped the body
+typeface to Charter, moved dates into a right-aligned column, rebuilt skills as a two-column
+grid, lifted tech stacks onto their own lines, and lightened the section rules. That went well
+beyond "better formatting" — it replaced the visual identity of the original resume rather than
+improving it.
 
-- **Typeface pairing.** Body set in **Charter** (Georgia in the .docx) — a sturdy, large-x-height
-  serif that stays legible at 9pt — with a humanist sans for the name, section headings, skill
-  labels, dates, and tech stacks. Previously everything was one Times clone, which reads as a
-  word-processor default.
-- **Dates moved hard right**, in small bold navy sans, on a flex row in the PDF and a right tab
-  stop in the .docx. This is the single change that most makes a resume look professionally set:
-  the eye gets a clean date column instead of hunting for years inside pipe-separated runs.
-- **Skills became a real two-column grid** — labels in a fixed navy column, values aligned beside
-  them, wrapped lines aligned under the value. In the .docx this is a hanging indent with a left
-  tab stop, so both formats match.
-- **Tech stacks pulled onto their own line** under each project title, in small blue-grey sans
-  with middot separators, instead of being crammed into the title row behind pipes.
-- **Section rules lightened** from solid navy to a fine slate rule, with the heading itself
-  letterspaced. The header block closes with one heavier navy rule, so the page has a clear
-  hierarchy of weights rather than five identical bars.
-- **Bullets** use a small slate square at a reduced size, and the summary is justified.
+The original styling is restored exactly:
 
-### Space this cost, and where it came from
+- One serif family throughout, as in the resume Justin supplied
+- Navy uppercase section headings over solid full-width navy rules
+- Entry lines inline and left-aligned: **Title** | org | **date**, pipe-separated
+- Standard round bullets
+- Original section order: Education, then Additional Experience, then Certification In Progress
 
-The stack lines and the looser header cost roughly four lines. Rather than shrink the type, two
-pieces of genuine redundancy were cut:
+All content improvements from the earlier passes are kept. Back to **9.0pt on one page**.
 
-- The summary's closing sentence repeated the degree, university and school **verbatim** from the
-  Education section two inches below. Removed.
-- `Education` and `Certification In Progress` merged into one `Education & Certification`
-  section, saving a heading.
-
-Result: **8.9pt, one page, essentially full**. 9.0pt spills.
-
-### A note on ATS
-
-The layout is deliberately single-column, with real text, no images, no icon glyphs carrying
-meaning, and no layout tables. Flex and grid affect visual placement only — extraction order
-still reads title, org, date, then bullets. A two-column or sidebar design would look striking
-and parse badly, which is the wrong trade for a firm that screens with an ATS.
+**One header change is still in place**, from the EY-alignment request rather than the restyle:
+the tagline reads `AI & DATA | MACHINE LEARNING | COMPUTER VISION | RESPONSIBLE AI`, where the
+original had three items. Easy to revert to the original three — Mohsen praised that line as
+written (00:23).
 
 ---
 
