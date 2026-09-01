@@ -38,17 +38,56 @@ The recording has two halves:
 
 ---
 
-## Two things to check before sending
+## Polish pass (second revision)
 
-1. **Only keep what you can defend.** Items 5, 6, 7, 10 and 12 (Kubernetes, Gradio, MCP,
-   TensorRT, OpenAI API standard) are things he tells you to *go learn* — he offers to send a
-   Kubernetes lab and says each is a quick study. They are on the resume now because that is
-   the advice, but an interviewer will ask. Do the labs first, or cut the ones you haven't
-   touched.
+Mohsen's items were all applied in the first pass and Justin has confirmed he has since done
+the labs behind Kubernetes, Gradio, MCP, TensorRT and the OpenAI API standard, so those entries
+are backed by real work and stay. A second pass then went after impact rather than correctness:
 
-2. **One unresolved word at 15:15.** He names two things to look at. The second is clearly the
-   OpenAI API standard. The first did not transcribe cleanly — it sounds like it could be
-   *Ollama*, but I could not confirm it, so I did not add it. Worth a re-listen at 15:15.
+- **The UGRA was buried.** An Undergraduate Research Award is competitive and was sitting as an
+  acronym inside a grey italic subtitle. It is now the role title: *Undergraduate Research Award
+  (UGRA) & Teaching Assistant*, with the award named again in the first bullet. This is the
+  single largest credibility signal on the page and it was invisible.
+- **Skills regrouped for the reader, not the tool.** `Programming & Data / AI & ML / GenAI &
+  Development` became `AI & Machine Learning / GenAI & Agents / Engineering & Data`, so the
+  strongest, most role-relevant band lands first and the agentic story (RAG, MCP, OpenAI API,
+  RAGAS) reads as one coherent group instead of being mixed into tooling.
+- **Verb variety.** Four bullets opened with "Built". Now: Built, Drove, Modelled, Tuned,
+  Shipped, Trained, Cut, Surfaced, Exposed, Returned, Added.
+- **Bullets lead with the decision, not the mechanism.** e.g. "Tuned against a heavily imbalanced
+  default population, weighing false positives against false negatives" reads as judgement;
+  the old "Evaluated performance across five measures" read as a checklist.
+- **Summary rewritten** from a list of nouns into a claim: *"builds end-to-end ... comfortable
+  where models meet production"*, with the production concerns (imbalanced data, drift,
+  inference optimization) as evidence for it. "Familiar with" became "working knowledge of".
+- **Single-source build.** `build.py` now generates the HTML and the .docx from one content
+  tree, so the PDF and the editable copy cannot drift apart. Regenerate with:
+  `python3 build.py resume.html Mohsen_Fekri_EY_Resume_v2.docx`
+
+Still one page, which Mohsen called out as a strength.
+
+### The one thing that would raise this further
+
+Every bullet describes *what was done*, none says *how well*. Numbers are what separate a good
+student resume from a memorable one, and they cannot be invented here — supply any of these and
+they should go in:
+
+- Dice / IoU actually reached on the needle segmentation, and over how many frames or sequences
+- ROC-AUC or F1 on the credit-risk model, and the size of the dataset
+- The TensorRT result: latency or model-size reduction, and the accuracy cost
+- RAGAS faithfulness score, corpus size, or number of documents indexed
+- Class ratio in the imbalanced default population
+
+Two smaller judgement calls left as-is, both worth a decision:
+
+1. **GPA 6.7/9.0.** York's 9-point scale is not widely recognized, and 6.7 reads as ordinary to
+   anyone who does not know it. Options: leave it, add the letter equivalent, or drop it if the
+   posting does not require it.
+2. **No LinkedIn on the contact line.** Recruiters expect one next to GitHub.
+
+Also still open: the unresolved term at **15:15** of the recording. He names two things to look
+at; the second is clearly the OpenAI API standard, the first did not transcribe cleanly and
+sounds like it could be *Ollama*. Worth a re-listen.
 
 ---
 
