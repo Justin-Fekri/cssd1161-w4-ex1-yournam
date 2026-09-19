@@ -1,0 +1,12 @@
+{
+  "name": "job-apply",
+  "version": "1.0.0",
+  "description": "Tailored resume + cover letter generator and assisted application filler",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "fill": "node src/autofill.js"
+  },
+  "license": "MIT"
+}

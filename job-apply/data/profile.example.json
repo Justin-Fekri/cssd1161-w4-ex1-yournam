@@ -1,0 +1,97 @@
+{
+  "name": "Justin Fekri",
+  "headline": "Software Developer",
+  "email": "justinfe@my.yorku.ca",
+  "phone": "",
+  "location": "Toronto, ON, Canada",
+  "links": {
+    "linkedin": "",
+    "github": "",
+    "portfolio": ""
+  },
+  "workAuthorization": {
+    "authorizedToWork": "Yes",
+    "requireSponsorship": "No",
+    "country": "Canada",
+    "willingToRelocate": "Yes",
+    "remotePreference": "Hybrid or Remote",
+    "noticePeriod": "Immediately available",
+    "desiredSalary": "Negotiable / open to discussion"
+  },
+  "demographics": {
+    "note": "Every field here is optional on every application. Leave blank to decline to answer.",
+    "gender": "Decline to self-identify",
+    "raceEthnicity": "Decline to self-identify",
+    "veteranStatus": "Decline to self-identify",
+    "disabilityStatus": "Decline to self-identify"
+  },
+  "skills": {
+    "Languages": ["JavaScript", "Python", "Java", "HTML", "CSS", "SQL"],
+    "Frameworks & Libraries": ["React", "Node.js", "Express"],
+    "Tools & Platforms": ["Git", "GitHub", "VS Code", "Linux"],
+    "Practices": ["Agile", "Code Review", "Unit Testing", "Documentation"],
+    "Core": ["Problem Solving", "Teamwork", "Communication", "Time Management"]
+  },
+  "experience": [
+    {
+      "company": "Example Employer Inc.",
+      "title": "Software Development Intern",
+      "location": "Toronto, ON",
+      "start": "May 2024",
+      "end": "Aug 2024",
+      "bullets": [
+        {
+          "text": "Built and shipped 12 reusable React components used across 4 internal tools, cutting new-page build time by roughly 30%.",
+          "tags": ["React", "JavaScript", "Web Development", "UI/UX"]
+        },
+        {
+          "text": "Wrote 60+ unit tests with Jest, raising coverage on the billing module from 41% to 88% and catching 7 regressions before release.",
+          "tags": ["Unit Testing", "JavaScript", "TDD", "Debugging"]
+        },
+        {
+          "text": "Designed and documented 5 REST endpoints in Node.js and Express, backed by PostgreSQL, serving ~8k requests per day.",
+          "tags": ["Node.js", "Express", "REST APIs", "PostgreSQL", "SQL", "Documentation"]
+        },
+        {
+          "text": "Participated in daily Agile standups and 2-week sprints, closing 43 Jira tickets across the internship.",
+          "tags": ["Agile", "Jira", "Teamwork", "Communication"]
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Cell Shop SPA",
+      "context": "CSSD1161 coursework",
+      "link": "",
+      "bullets": [
+        {
+          "text": "Built a single-page storefront in vanilla JavaScript, HTML, and CSS with client-side cart state, filtering, and responsive layout across 3 breakpoints.",
+          "tags": ["JavaScript", "HTML", "CSS", "Web Development", "UI/UX"]
+        },
+        {
+          "text": "Managed the project on GitHub using feature branches and pull requests, with peer code review before every merge.",
+          "tags": ["Git", "Code Review", "Teamwork"]
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "school": "York University",
+      "credential": "Computer Science / Software Development coursework",
+      "location": "Toronto, ON",
+      "start": "",
+      "end": "Expected 2026",
+      "details": ["Relevant coursework: CSSD1161 Software Development, Data Structures, Web Development"]
+    }
+  ],
+  "certifications": [],
+  "answers": {
+    "whyThisCompany": "",
+    "whyThisRole": "",
+    "greatestStrength": "",
+    "notableProject": "",
+    "howDidYouHear": "Company careers page"
+  }
+}

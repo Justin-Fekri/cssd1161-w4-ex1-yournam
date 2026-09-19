@@ -1,0 +1,8 @@
+# Your real profile contains personal data — never commit it.
+data/profile.json
+data/applications.json
+
+# Generated resumes, cover letters, and PDFs.
+output/
+
+node_modules/

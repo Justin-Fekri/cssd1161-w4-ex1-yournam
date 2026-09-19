@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Apply — tailored applications</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="dot"></span> Job Apply</div>
+  <nav class="tabs">
+    <button class="tab active" data-view="queue">Queue</button>
+    <button class="tab" data-view="add">Add jobs</button>
+    <button class="tab" data-view="profile">My profile</button>
+  </nav>
+  <div class="stats" id="stats"></div>
+</header>
+
+<main>
+  <!-- ADD JOBS -->
+  <section id="view-add" class="view">
+    <h1>Add jobs</h1>
+    <p class="lede">Paste job links — one per line. For sites that block reading (Workday, LinkedIn, Indeed), paste the job description text below the link and separate each job with a line containing <code>---</code>.</p>
+    <textarea id="links" rows="12" spellcheck="false" placeholder="https://boards.greenhouse.io/acme/jobs/123456
+https://jobs.lever.co/example/abc-def
+
+---
+https://company.wd1.myworkdayjobs.com/en-US/careers/job/Software-Developer_R-123
+Software Developer
+We are looking for a developer with 2+ years of experience in React, Node.js...
+(paste the full description here)"></textarea>
+    <div class="row">
+      <button id="run" class="primary">Process all jobs</button>
+      <span class="muted" id="runStatus"></span>
+    </div>
+  </section>
+
+  <!-- QUEUE -->
+  <section id="view-queue" class="view active">
+    <h1>Application queue</h1>
+    <p class="lede">Each card is a finished package: tailored resume, cover letter, and every form answer. Open the posting, paste or upload, submit.</p>
+    <div id="queue" class="queue"></div>
+    <div id="empty" class="empty">No jobs yet. Go to <strong>Add jobs</strong> and paste your links.</div>
+  </section>
+
+  <!-- PROFILE -->
+  <section id="view-profile" class="view">
+    <h1>My profile</h1>
+    <p class="lede">This is the single source of truth. Everything on every tailored resume comes from here — nothing is invented. Keep bullets specific and numbered where you can.</p>
+    <textarea id="profileJson" rows="26" spellcheck="false"></textarea>
+    <div class="row">
+      <button id="saveProfile" class="primary">Save profile</button>
+      <span class="muted" id="profileStatus"></span>
+    </div>
+  </section>
+</main>
+
+<!-- JOB DETAIL -->
+<div id="drawer" class="drawer" hidden>
+  <div class="drawer-inner">
+    <button class="close" id="closeDrawer" aria-label="Close">&times;</button>
+    <div id="drawerBody"></div>
+  </div>
+</div>
+
+<script src="/app.js" type="module"></script>
+</body>
+</html>
