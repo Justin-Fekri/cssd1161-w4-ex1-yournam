@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import Anthropic from "@anthropic-ai/sdk";
+import { startApplication } from "./apply.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.join(here, "public");
@@ -50,7 +51,7 @@ const TAILOR_SCHEMA = {
     "coverLetter",
     "matchedKeywords",
     "gaps",
-    "atsScoreEstimate",
+    "atsScore",
     "notes",
   ],
   properties: {
@@ -84,9 +85,33 @@ const TAILOR_SCHEMA = {
         },
       },
     },
-    atsScoreEstimate: {
-      type: "integer",
-      description: "0-100 estimate of keyword/requirement coverage of the tailored resume against the posting",
+    atsScore: {
+      type: "object",
+      additionalProperties: false,
+      description:
+        "Score the TAILORED resume the way an ATS ranker and an AI screener would, each 0-100. Be strict and realistic, not flattering.",
+      required: [
+        "overall",
+        "keywordMatch",
+        "requiredSkills",
+        "preferredSkills",
+        "titleAlignment",
+        "experienceRelevance",
+        "formatting",
+        "verdict",
+        "topFixes",
+      ],
+      properties: {
+        overall: { type: "integer", description: "0-100 weighted overall pass likelihood" },
+        keywordMatch: { type: "integer", description: "0-100 share of posting keywords present verbatim" },
+        requiredSkills: { type: "integer", description: "0-100 coverage of required qualifications" },
+        preferredSkills: { type: "integer", description: "0-100 coverage of preferred qualifications" },
+        titleAlignment: { type: "integer", description: "0-100 how closely past titles/summary match the target title" },
+        experienceRelevance: { type: "integer", description: "0-100 years and type of experience vs the posting" },
+        formatting: { type: "integer", description: "0-100 how cleanly an ATS will parse it" },
+        verdict: { type: "string", description: "One sentence: likely to pass the screen, borderline, or likely filtered out, and why" },
+        topFixes: { type: "array", items: { type: "string" }, description: "Up to 3 changes that would raise the score most" },
+      },
     },
     notes: { type: "string", description: "Short tips for this application" },
   },
@@ -227,6 +252,10 @@ const ROUTES = {
   "/api/contacts": (b) => {
     if (!b.company?.trim() || !b.jobPosting?.trim()) throw badRequest("Company and job posting are required.");
     return findContacts(b);
+  },
+  "/api/apply": (b) => {
+    if (!b.resume?.trim() || !b.coverLetter?.trim()) throw badRequest("Tailor the resume first.");
+    return startApplication(b);
   },
   "/api/followups": (b) => {
     if (!b.company?.trim() || !b.resume?.trim()) throw badRequest("Company and resume are required.");

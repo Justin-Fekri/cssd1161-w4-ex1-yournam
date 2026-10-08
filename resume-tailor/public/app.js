@@ -65,6 +65,18 @@ $("#masterFile").addEventListener("change", async (e) => {
   store.set("masterResume", $("#master").value);
 });
 
+// ---------- Profile (for application forms) ----------
+
+const profile = store.get("profile", {});
+document.querySelectorAll("[data-profile]").forEach((el) => {
+  el.value = profile[el.dataset.profile] || "";
+  el.addEventListener("input", () => {
+    profile[el.dataset.profile] = el.value.trim();
+    store.set("profile", profile);
+  });
+});
+if (!profile.fullName) $("#profileBox").open = true;
+
 // ---------- Tailoring ----------
 
 $("#addAll").checked = store.get("addAllSkills", true);
@@ -82,7 +94,11 @@ async function runTailor(confirmedSkills = []) {
   });
   current = { result, posting: jobPosting, jobUrl: $("#jobUrl").value.trim(), confirmedSkills, contacts: null };
   renderResult();
-  setStatus("Done. Review every line before you submit — you'll be asked about it in the interview.");
+  setStatus("Done. Finding the recruiter and hiring manager...");
+  findContacts().then(
+    () => setStatus("Done. Resume, cover letter and contacts are ready."),
+    (err) => setStatus(`Resume ready. Contact search failed: ${err.message}`, true),
+  );
 }
 
 $("#tailorBtn").addEventListener("click", (e) => busy(e.target, "Working...", () => runTailor()));
@@ -97,7 +113,8 @@ function renderResult() {
   const r = current.result;
   $("#results").hidden = false;
   $("#resultTitle").textContent = `${r.jobTitle} — ${r.company}`;
-  $("#atsScore").textContent = `Estimated keyword/requirement coverage: ${r.atsScoreEstimate}/100`;
+  renderScore(r.atsScore);
+  $("#applyResult").hidden = true;
   $("#resumeOut").value = r.resume;
   $("#coverOut").value = r.coverLetter;
   $("#keywords").textContent = r.matchedKeywords.join(", ");
@@ -125,6 +142,84 @@ function renderResult() {
   showTab("resume");
   $("#results").scrollIntoView({ behavior: "smooth" });
 }
+
+function scoreClass(n) {
+  return n >= 80 ? "good" : n >= 60 ? "mid" : "low";
+}
+
+function renderScore(score) {
+  const card = $("#scoreCard");
+  card.replaceChildren();
+  if (!score) return;
+  const big = document.createElement("div");
+  big.className = `score-big ${scoreClass(score.overall)}`;
+  big.innerHTML = "<span></span><small>screening score</small>";
+  big.querySelector("span").textContent = score.overall;
+
+  const bars = document.createElement("div");
+  bars.className = "score-bars";
+  [
+    ["Keywords", score.keywordMatch],
+    ["Required skills", score.requiredSkills],
+    ["Preferred skills", score.preferredSkills],
+    ["Title match", score.titleAlignment],
+    ["Experience", score.experienceRelevance],
+    ["ATS formatting", score.formatting],
+  ].forEach(([label, n]) => {
+    const d = document.createElement("div");
+    d.innerHTML = `<div><span></span> <strong></strong></div><div class="bar"><span></span></div>`;
+    d.querySelector("span").textContent = label;
+    d.querySelector("strong").textContent = n;
+    d.querySelector(".bar span").style.width = `${n}%`;
+    bars.append(d);
+  });
+
+  const verdict = document.createElement("p");
+  verdict.className = "verdict";
+  verdict.textContent = score.verdict;
+
+  card.append(big, bars, verdict);
+  if (score.topFixes?.length) {
+    const ul = document.createElement("ul");
+    score.topFixes.forEach((f) => ul.append(Object.assign(document.createElement("li"), { textContent: f })));
+    card.append(ul);
+  }
+}
+
+// ---------- Applying ----------
+
+$("#applyBtn").addEventListener("click", (e) =>
+  busy(e.target, "Opening application...", async () => {
+    const url = current.jobUrl || prompt("Paste the job posting / application URL:");
+    if (!url) return;
+    current.jobUrl = url.trim();
+    const r = await api("/api/apply", {
+      url: current.jobUrl,
+      profile,
+      resume: $("#resumeOut").value,
+      coverLetter: $("#coverOut").value,
+      company: current.result.company,
+      jobTitle: current.result.jobTitle,
+    });
+    const box = $("#applyResult");
+    box.hidden = false;
+    box.innerHTML = `<strong>Application opened in the browser window.</strong>
+      <p class="filled"></p><p class="attached"></p><p class="todo"></p>
+      <p class="hint">Check the form, answer anything left, and click Submit there.</p>
+      <button class="primary done">I submitted it</button>`;
+    box.querySelector(".filled").textContent = `Filled: ${r.filled.join(", ") || "nothing recognised"}`;
+    box.querySelector(".attached").textContent = `Attached: ${r.attached.join(", ") || "no upload field found — attach the PDFs yourself: " + r.resumePdf}`;
+    box.querySelector(".todo").textContent = r.unfilledRequired.length ? `Still needs your answer: ${r.unfilledRequired.join("; ")}` : "";
+    box.querySelector(".done").addEventListener("click", () => {
+      const job = saveCurrent();
+      job.status = "Applied";
+      job.applied = new Date().toISOString().slice(0, 10);
+      saveJobs(loadJobs().map((j) => (j.id === job.id ? job : j)));
+      box.innerHTML = "<strong>Marked as applied.</strong> Send the outreach drafts from the Contacts tab now.";
+      showTab("contacts");
+    });
+  }),
+);
 
 // ---------- Tabs & output actions ----------
 
@@ -166,17 +261,24 @@ document.addEventListener("click", (e) => {
 
 // ---------- Contacts ----------
 
+async function findContacts() {
+  const job = current;
+  $("#contactList").textContent = "Searching public sources for the recruiter and hiring manager...";
+  const data = await api("/api/contacts", {
+    company: job.result.company,
+    jobTitle: job.result.jobTitle,
+    jobPosting: job.posting,
+    jobUrl: job.jobUrl,
+  });
+  job.contacts = data;
+  if (current === job) renderContacts(data);
+  if (job.savedId) saveJobs(loadJobs().map((j) => (j.id === job.savedId ? { ...j, contacts: data } : j)));
+}
+
 $("#contactsBtn").addEventListener("click", (e) =>
-  busy(e.target, "Searching...", async () => {
-    const r = current.result;
-    const data = await api("/api/contacts", {
-      company: r.company,
-      jobTitle: r.jobTitle,
-      jobPosting: current.posting,
-      jobUrl: current.jobUrl,
-    });
-    current.contacts = data;
-    renderContacts(data);
+  busy(e.target, "Searching...", () => {
+    if (!current.posting) throw new Error("Paste the job posting again to search for contacts.");
+    return findContacts();
   }),
 );
 
@@ -263,6 +365,24 @@ function renderContacts(data) {
           ta.value = text;
           drafts.append(h, ta);
         });
+        if (c.publicEmail) {
+          const [subjectLine, ...bodyLines] = d.email.split("\n");
+          const subject = subjectLine.replace(/^subject:\s*/i, "");
+          const mail = Object.assign(document.createElement("a"), {
+            href: `mailto:${c.publicEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n").trim())}`,
+            textContent: `Send email to ${c.publicEmail}`,
+            className: "file-btn",
+          });
+          drafts.append(mail);
+        }
+        if (c.linkedinUrl) {
+          const li = Object.assign(document.createElement("button"), { textContent: "Copy note & open LinkedIn" });
+          li.addEventListener("click", () => {
+            navigator.clipboard.writeText(d.linkedinNote);
+            window.open(c.linkedinUrl, "_blank", "noopener");
+          });
+          drafts.append(li);
+        }
       }),
     );
     box.append(card);
@@ -292,22 +412,29 @@ function saveJobs(jobs) {
   renderTracker();
 }
 
-$("#saveBtn").addEventListener("click", () => {
-  if (!current) return;
+function saveCurrent() {
   const r = current.result;
   const jobs = loadJobs();
-  jobs.unshift({
-    id: Date.now(),
+  const existing = jobs.find((j) => j.id === current.savedId);
+  const job = {
+    ...(existing || { id: Date.now(), status: "Tailored", applied: "" }),
     company: r.company,
     jobTitle: r.jobTitle,
     url: current.jobUrl,
-    status: "Tailored",
-    applied: "",
+    posting: current.posting,
+    atsScore: r.atsScore,
     resume: $("#resumeOut").value,
     coverLetter: $("#coverOut").value,
     contacts: current.contacts,
-  });
-  saveJobs(jobs);
+  };
+  current.savedId = job.id;
+  saveJobs(existing ? jobs.map((j) => (j.id === job.id ? job : j)) : [job, ...jobs]);
+  return job;
+}
+
+$("#saveBtn").addEventListener("click", () => {
+  if (!current) return;
+  saveCurrent();
   $("#saveBtn").textContent = "Saved ✓";
   setTimeout(() => ($("#saveBtn").textContent = "Save to tracker"), 1500);
 });
@@ -328,6 +455,10 @@ function renderTracker() {
     const tr = document.createElement("tr");
     tr.innerHTML = `<td class="c"></td><td class="r"></td><td><select></select></td><td class="d"></td><td class="ops"></td>`;
     tr.querySelector(".c").textContent = job.company;
+    if (job.atsScore) {
+      const b = Object.assign(document.createElement("span"), { className: `badge ${scoreClass(job.atsScore.overall)}`, textContent: `score ${job.atsScore.overall}` });
+      tr.querySelector(".c").append(" ", b);
+    }
     const role = tr.querySelector(".r");
     if (job.url) {
       const a = document.createElement("a");
@@ -359,8 +490,9 @@ function renderTracker() {
     const open = Object.assign(document.createElement("button"), { textContent: "Open" });
     open.addEventListener("click", () => {
       current = {
-        result: { company: job.company, jobTitle: job.jobTitle, resume: job.resume, coverLetter: job.coverLetter, matchedKeywords: [], gaps: [], atsScoreEstimate: "—", notes: "" },
-        posting: "",
+        result: { company: job.company, jobTitle: job.jobTitle, resume: job.resume, coverLetter: job.coverLetter, matchedKeywords: [], gaps: [], atsScore: job.atsScore, notes: "" },
+        posting: job.posting || "",
+        savedId: job.id,
         jobUrl: job.url,
         confirmedSkills: [],
         contacts: job.contacts,

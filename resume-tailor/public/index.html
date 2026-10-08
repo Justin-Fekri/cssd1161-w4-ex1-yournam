@@ -19,6 +19,19 @@
       <textarea id="master" rows="14" placeholder="Paste your full resume here..."></textarea>
       <label class="file-btn">Load from .txt <input type="file" id="masterFile" accept=".txt,.md" hidden /></label>
 
+      <details id="profileBox">
+        <summary><strong>My details for application forms</strong> <span class="hint">(used by Apply)</span></summary>
+        <div class="profile-grid">
+          <input data-profile="fullName" placeholder="Full name" />
+          <input data-profile="email" type="email" placeholder="Email" />
+          <input data-profile="phone" placeholder="Phone" />
+          <input data-profile="location" placeholder="City, Province/State" />
+          <input data-profile="linkedin" placeholder="LinkedIn URL" />
+          <input data-profile="github" placeholder="GitHub URL" />
+          <input data-profile="website" placeholder="Portfolio / website" />
+        </div>
+      </details>
+
       <h2>2. Job posting</h2>
       <input id="jobUrl" type="url" placeholder="Posting URL (optional, helps find contacts)" />
       <textarea id="posting" rows="12" placeholder="Paste the full job description here..."></textarea>
@@ -29,12 +42,14 @@
 
     <section class="panel" id="results" hidden>
       <div class="result-head">
+        <h2 id="resultTitle"></h2>
         <div>
-          <h2 id="resultTitle"></h2>
-          <p id="atsScore" class="hint"></p>
+          <button id="applyBtn" class="primary">Apply (auto-fill)</button>
+          <button id="saveBtn">Save to tracker</button>
         </div>
-        <button id="saveBtn">Save to tracker</button>
       </div>
+      <div id="scoreCard" class="score-card"></div>
+      <div id="applyResult" class="card" hidden></div>
 
       <nav class="tabs" role="tablist">
         <button role="tab" data-tab="resume" class="active">Resume</button>
@@ -70,15 +85,15 @@
       </div>
 
       <div class="tab-panel" data-panel="contacts" hidden>
-        <p class="hint">Searches public sources (the posting, company pages, public LinkedIn results) for the recruiter and hiring manager. Every result links to its source — verify before reaching out.</p>
-        <button id="contactsBtn" class="primary">Find recruiter &amp; hiring manager</button>
+        <p class="hint">Found automatically after tailoring, from public sources (the posting, company pages, public LinkedIn results). Every result links to its source.</p>
+        <button id="contactsBtn">Search again</button>
         <div id="contactList"></div>
       </div>
     </section>
 
     <section class="panel" id="tracker">
       <h2>Application tracker</h2>
-      <p class="hint">Submit each application yourself on the employer's site, then mark it here so you know when to follow up.</p>
+      <p class="hint">Apply opens each application in a browser window and fills it in. Answer any screening questions, click Submit, then mark it Applied here.</p>
       <table>
         <thead><tr><th>Company</th><th>Role</th><th>Status</th><th>Applied</th><th></th></tr></thead>
         <tbody id="trackerBody"></tbody>

@@ -126,3 +126,17 @@ td button { margin: 0 4px 4px 0; padding: 3px 8px; }
 #tracker { overflow-x: auto; }
 
 .check { display: block; margin: 10px 0 2px; font-size: 0.92rem; }
+
+.profile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 6px; margin: 8px 0; }
+.profile-grid input { width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; font: inherit; }
+details { margin-top: 14px; }
+
+.score-card { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 16px; align-items: center; margin: 8px 0; }
+.score-big { grid-row: span 2; font-size: 2.4rem; font-weight: 700; line-height: 1; text-align: center; }
+.score-big small { display: block; font-size: 0.75rem; font-weight: 400; color: var(--muted); }
+.score-bars { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 4px 14px; font-size: 0.82rem; }
+.bar { height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; }
+.bar span { display: block; height: 100%; background: var(--accent); }
+.good { color: var(--ok); } .mid { color: #c48a00; } .low { color: var(--warn); }
+.score-card ul { grid-column: 1 / -1; margin: 4px 0 0; padding-left: 18px; font-size: 0.88rem; }
+.score-card .verdict { grid-column: 2; margin: 0; font-size: 0.9rem; }
