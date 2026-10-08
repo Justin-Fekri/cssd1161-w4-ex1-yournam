@@ -22,6 +22,7 @@
       <h2>2. Job posting</h2>
       <input id="jobUrl" type="url" placeholder="Posting URL (optional, helps find contacts)" />
       <textarea id="posting" rows="12" placeholder="Paste the full job description here..."></textarea>
+      <label class="check"><input type="checkbox" id="addAll" /> Add every required &amp; preferred skill from the posting to my resume</label>
       <button id="tailorBtn" class="primary">Tailor resume &amp; cover letter</button>
       <p id="status" class="status" role="status"></p>
     </section>
@@ -62,7 +63,7 @@
       </div>
 
       <div class="tab-panel" data-panel="gaps" hidden>
-        <p class="hint">These requirements aren't on your resume. Tick the ones you genuinely have (e.g. used in a course or side project) and regenerate — they'll be added. Leave the rest unticked; the cover letter mentions them as skills you're actively picking up, and the tips below show the fastest way to close each one before the interview.</p>
+        <p class="hint" id="gapHint"></p>
         <ul id="gapList" class="gap-list"></ul>
         <button id="regenBtn" class="primary">Regenerate with ticked skills</button>
         <p id="notes" class="hint"></p>

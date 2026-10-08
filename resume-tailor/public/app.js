@@ -67,11 +67,19 @@ $("#masterFile").addEventListener("change", async (e) => {
 
 // ---------- Tailoring ----------
 
+$("#addAll").checked = store.get("addAllSkills", true);
+$("#addAll").addEventListener("change", (e) => store.set("addAllSkills", e.target.checked));
+
 async function runTailor(confirmedSkills = []) {
   const masterResume = $("#master").value;
   const jobPosting = $("#posting").value;
   setStatus("Tailoring... this usually takes under a minute.");
-  const result = await api("/api/tailor", { masterResume, jobPosting, confirmedSkills });
+  const result = await api("/api/tailor", {
+    masterResume,
+    jobPosting,
+    confirmedSkills,
+    addAllSkills: $("#addAll").checked,
+  });
   current = { result, posting: jobPosting, jobUrl: $("#jobUrl").value.trim(), confirmedSkills, contacts: null };
   renderResult();
   setStatus("Done. Review every line before you submit — you'll be asked about it in the interview.");
@@ -94,6 +102,9 @@ function renderResult() {
   $("#coverOut").value = r.coverLetter;
   $("#keywords").textContent = r.matchedKeywords.join(", ");
   $("#notes").textContent = r.notes;
+  $("#gapHint").textContent = $("#addAll").checked
+    ? "These skills weren't on your master resume and have been added to this one. Learn them before the interview — each has the fastest way to get up to speed."
+    : "These requirements aren't on your resume. Tick any to add them and regenerate. Each has the fastest way to get up to speed before the interview.";
 
   const list = $("#gapList");
   list.replaceChildren(

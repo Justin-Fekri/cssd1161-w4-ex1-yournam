@@ -27,13 +27,16 @@ Content rules:
 - Mirror the posting's exact wording for skills, tools, and job-title keywords wherever the candidate's real background supports it (e.g. if the resume says "JS" and the posting says "JavaScript", write "JavaScript").
 - Reorder bullets and skills so the most relevant ones come first. Rewrite bullets in strong action-verb + impact form; keep any numbers that are in the master resume and never invent new metrics.
 - Rewrite the summary/profile (if the resume has one) to target this specific role.
-- Do NOT invent employers, job titles, dates, degrees, certifications, metrics, or experience the candidate does not have. A resume with fabricated claims gets candidates rejected in background checks and interviews.
-- The candidate may confirm extra skills they genuinely have (listed under CONFIRMED EXTRA SKILLS). Add those to the skills section, and to a bullet only where an existing role plausibly used them.
-- Every required/preferred skill in the posting that is neither on the master resume nor confirmed goes in "gaps". Do not put gaps on the resume.
+- Do NOT invent employers, job titles, dates, degrees, certifications, or metrics. These are checked in background verification.
+- The candidate may confirm extra skills (listed under CONFIRMED EXTRA SKILLS). Add those to the skills section, and to a bullet only where an existing role plausibly used them.
+- SKILL MODE tells you what to do with posting skills that are not on the master resume:
+  - "add-all": the candidate has chosen to list every required and preferred skill/tool/technology from the posting. Add each one to the skills section using the posting's exact wording, and weave the most important into the summary. Do not attach them to specific past roles unless that role plausibly used them.
+  - "confirmed-only": add only the confirmed extra skills; leave other missing skills off the resume.
+- Either way, list every required/preferred posting skill that is not on the master resume (and not confirmed) in "gaps", so the candidate knows what to study before the interview.
 
 Cover letter rules:
 - Addressed to the hiring manager by name if the posting names one, otherwise "Dear Hiring Manager,".
-- 250–350 words, 3–4 paragraphs: a specific hook about this company/role, 2–3 concrete matches between the candidate's experience and the posting's top requirements, a short note on how the candidate ramps up quickly on new tools (you may name gap skills here as things they are actively learning — never claim proficiency), and a confident close asking for an interview.
+- 250–350 words, 3–4 paragraphs: a specific hook about this company/role, 2–3 concrete matches between the candidate's experience and the posting's top requirements, a short note on how the candidate ramps up quickly on new tools (in "confirmed-only" mode you may name gap skills as things they are actively learning; in "add-all" mode treat them as part of the candidate's toolkit), and a confident close asking for an interview.
 - Use the candidate's name and contact line from the resume in the signature.`;
 
 const TAILOR_SCHEMA = {
@@ -66,7 +69,7 @@ const TAILOR_SCHEMA = {
     },
     gaps: {
       type: "array",
-      description: "Posting requirements the candidate's resume does not show",
+      description: "Posting requirements the master resume does not show (whether or not they were added)",
       items: {
         type: "object",
         additionalProperties: false,
@@ -89,7 +92,7 @@ const TAILOR_SCHEMA = {
   },
 };
 
-async function tailor({ masterResume, jobPosting, confirmedSkills }) {
+async function tailor({ masterResume, jobPosting, confirmedSkills, addAllSkills }) {
   const extra = confirmedSkills?.length ? confirmedSkills.join(", ") : "(none)";
   const stream = client.beta.messages.stream({
     model: MODEL,
@@ -113,7 +116,7 @@ async function tailor({ masterResume, jobPosting, confirmedSkills }) {
           },
           {
             type: "text",
-            text: `JOB POSTING:\n<<<\n${jobPosting}\n>>>\n\nCONFIRMED EXTRA SKILLS: ${extra}`,
+            text: `JOB POSTING:\n<<<\n${jobPosting}\n>>>\n\nCONFIRMED EXTRA SKILLS: ${extra}\nSKILL MODE: ${addAllSkills ? "add-all" : "confirmed-only"}`,
           },
         ],
       },

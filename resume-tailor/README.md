@@ -4,7 +4,7 @@ A small local web app. You give it your master resume once. For each job posting
 
 1. **A tailored resume.** It keeps your section headings, order and plain-text layout, uses the posting's exact keywords, and moves the most relevant bullets to the top. All of this is ATS friendly.
 2. **A tailored cover letter.** It's addressed to the hiring manager when the posting names one.
-3. **A skill-gap list.** These are requirements the posting asks for that your resume doesn't show. Tick the ones you really have and regenerate, and they get added. Each one comes with the fastest way to close it before the interview.
+3. **Every skill the posting asks for.** With *Add every required & preferred skill* on (the default), all of the posting's required and preferred skills are added to your resume's skills section. The Skill gaps tab lists which ones were added, with the fastest way to learn each before the interview. Turn the option off to add only the skills you tick.
 4. **Recruiter and hiring-manager research.** It uses web search over public sources. Every person links to its source, plus ready-made LinkedIn people searches.
 5. **Outreach drafts.** You get a LinkedIn note, an email, and a one-week follow-up for each contact.
 6. **An application tracker.** It's saved in your browser and flags applications that are due for a follow-up.
@@ -34,4 +34,4 @@ Open http://localhost:3000.
 ## Notes
 
 - Your master resume and tracker live only in your browser's localStorage. Resume and posting text is sent to the Claude API to generate results.
-- The app won't put skills or experience on the resume that you haven't confirmed. ATS filters get you to a human, and the human will ask about every line. Put unconfirmed requirements in the cover letter as things you're actively learning.
+- The app adds skills, but it never invents employers, job titles, dates, degrees, certifications or metrics. Those are checked in background verification.

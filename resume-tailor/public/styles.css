@@ -124,3 +124,5 @@ th { color: var(--muted); font-weight: 600; font-size: 0.85rem; }
 td a { color: var(--accent); }
 td button { margin: 0 4px 4px 0; padding: 3px 8px; }
 #tracker { overflow-x: auto; }
+
+.check { display: block; margin: 10px 0 2px; font-size: 0.92rem; }
