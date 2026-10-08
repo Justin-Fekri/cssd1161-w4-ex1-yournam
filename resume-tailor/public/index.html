@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume Tailor</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>Resume Tailor</h1>
+    <p>One master resume in, a tailored resume, cover letter and follow-up plan out for every job.</p>
+  </header>
+
+  <main class="layout">
+    <section class="panel" id="inputs">
+      <h2>1. Master resume</h2>
+      <p class="hint">Paste it once as plain text. It's saved in this browser and its layout is kept for every tailored version.</p>
+      <textarea id="master" rows="14" placeholder="Paste your full resume here..."></textarea>
+      <label class="file-btn">Load from .txt <input type="file" id="masterFile" accept=".txt,.md" hidden /></label>
+
+      <h2>2. Job posting</h2>
+      <input id="jobUrl" type="url" placeholder="Posting URL (optional, helps find contacts)" />
+      <textarea id="posting" rows="12" placeholder="Paste the full job description here..."></textarea>
+      <button id="tailorBtn" class="primary">Tailor resume &amp; cover letter</button>
+      <p id="status" class="status" role="status"></p>
+    </section>
+
+    <section class="panel" id="results" hidden>
+      <div class="result-head">
+        <div>
+          <h2 id="resultTitle"></h2>
+          <p id="atsScore" class="hint"></p>
+        </div>
+        <button id="saveBtn">Save to tracker</button>
+      </div>
+
+      <nav class="tabs" role="tablist">
+        <button role="tab" data-tab="resume" class="active">Resume</button>
+        <button role="tab" data-tab="cover">Cover letter</button>
+        <button role="tab" data-tab="gaps">Skill gaps</button>
+        <button role="tab" data-tab="contacts">Contacts</button>
+      </nav>
+
+      <div class="tab-panel" data-panel="resume">
+        <div class="actions">
+          <button data-copy="resumeOut">Copy</button>
+          <button data-download="resumeOut" data-name="resume">Download .txt</button>
+          <button data-print="resumeOut">Print / save PDF</button>
+        </div>
+        <textarea id="resumeOut" rows="28"></textarea>
+        <p class="hint">Matched keywords: <span id="keywords"></span></p>
+      </div>
+
+      <div class="tab-panel" data-panel="cover" hidden>
+        <div class="actions">
+          <button data-copy="coverOut">Copy</button>
+          <button data-download="coverOut" data-name="cover-letter">Download .txt</button>
+          <button data-print="coverOut">Print / save PDF</button>
+        </div>
+        <textarea id="coverOut" rows="24"></textarea>
+      </div>
+
+      <div class="tab-panel" data-panel="gaps" hidden>
+        <p class="hint">These requirements aren't on your resume. Tick the ones you genuinely have (e.g. used in a course or side project) and regenerate — they'll be added. Leave the rest unticked; the cover letter mentions them as skills you're actively picking up, and the tips below show the fastest way to close each one before the interview.</p>
+        <ul id="gapList" class="gap-list"></ul>
+        <button id="regenBtn" class="primary">Regenerate with ticked skills</button>
+        <p id="notes" class="hint"></p>
+      </div>
+
+      <div class="tab-panel" data-panel="contacts" hidden>
+        <p class="hint">Searches public sources (the posting, company pages, public LinkedIn results) for the recruiter and hiring manager. Every result links to its source — verify before reaching out.</p>
+        <button id="contactsBtn" class="primary">Find recruiter &amp; hiring manager</button>
+        <div id="contactList"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="tracker">
+      <h2>Application tracker</h2>
+      <p class="hint">Submit each application yourself on the employer's site, then mark it here so you know when to follow up.</p>
+      <table>
+        <thead><tr><th>Company</th><th>Role</th><th>Status</th><th>Applied</th><th></th></tr></thead>
+        <tbody id="trackerBody"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "resume-tailor",
+  "version": "1.0.0",
+  "description": "Tailor a master resume and cover letter to each job posting, and research who to follow up with.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.132.1"
+  }
+}
