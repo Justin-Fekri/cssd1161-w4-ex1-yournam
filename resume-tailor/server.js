@@ -38,7 +38,9 @@ Content rules:
 Cover letter rules:
 - Addressed to the hiring manager by name if the posting names one, otherwise "Dear Hiring Manager,".
 - 250–350 words, 3–4 paragraphs: a specific hook about this company/role, 2–3 concrete matches between the candidate's experience and the posting's top requirements, a short note on how the candidate ramps up quickly on new tools (in "confirmed-only" mode you may name gap skills as things they are actively learning; in "add-all" mode treat them as part of the candidate's toolkit), and a confident close asking for an interview.
-- Use the candidate's name and contact line from the resume in the signature.`;
+- Use the candidate's name and contact line from the resume in the signature.
+
+Revisions: if a PREVIOUS DRAFT and GRADER FEEDBACK are given, rewrite both documents to fix every point the grader raised and lift every sub-score, while keeping all the rules above.`;
 
 const TAILOR_SCHEMA = {
   type: "object",
@@ -51,7 +53,6 @@ const TAILOR_SCHEMA = {
     "coverLetter",
     "matchedKeywords",
     "gaps",
-    "atsScore",
     "notes",
   ],
   properties: {
@@ -85,39 +86,11 @@ const TAILOR_SCHEMA = {
         },
       },
     },
-    atsScore: {
-      type: "object",
-      additionalProperties: false,
-      description:
-        "Score the TAILORED resume the way an ATS ranker and an AI screener would, each 0-100. Be strict and realistic, not flattering.",
-      required: [
-        "overall",
-        "keywordMatch",
-        "requiredSkills",
-        "preferredSkills",
-        "titleAlignment",
-        "experienceRelevance",
-        "formatting",
-        "verdict",
-        "topFixes",
-      ],
-      properties: {
-        overall: { type: "integer", description: "0-100 weighted overall pass likelihood" },
-        keywordMatch: { type: "integer", description: "0-100 share of posting keywords present verbatim" },
-        requiredSkills: { type: "integer", description: "0-100 coverage of required qualifications" },
-        preferredSkills: { type: "integer", description: "0-100 coverage of preferred qualifications" },
-        titleAlignment: { type: "integer", description: "0-100 how closely past titles/summary match the target title" },
-        experienceRelevance: { type: "integer", description: "0-100 years and type of experience vs the posting" },
-        formatting: { type: "integer", description: "0-100 how cleanly an ATS will parse it" },
-        verdict: { type: "string", description: "One sentence: likely to pass the screen, borderline, or likely filtered out, and why" },
-        topFixes: { type: "array", items: { type: "string" }, description: "Up to 3 changes that would raise the score most" },
-      },
-    },
     notes: { type: "string", description: "Short tips for this application" },
   },
 };
 
-async function tailor({ masterResume, jobPosting, confirmedSkills, addAllSkills }) {
+async function tailor({ masterResume, jobPosting, confirmedSkills, addAllSkills, previous }) {
   const extra = confirmedSkills?.length ? confirmedSkills.join(", ") : "(none)";
   const stream = client.beta.messages.stream({
     model: MODEL,
@@ -143,6 +116,14 @@ async function tailor({ masterResume, jobPosting, confirmedSkills, addAllSkills 
             type: "text",
             text: `JOB POSTING:\n<<<\n${jobPosting}\n>>>\n\nCONFIRMED EXTRA SKILLS: ${extra}\nSKILL MODE: ${addAllSkills ? "add-all" : "confirmed-only"}`,
           },
+          ...(previous
+            ? [
+                {
+                  type: "text",
+                  text: `PREVIOUS DRAFT RESUME:\n<<<\n${previous.draft.resume}\n>>>\n\nPREVIOUS DRAFT COVER LETTER:\n<<<\n${previous.draft.coverLetter}\n>>>\n\nGRADER FEEDBACK:\n${JSON.stringify(previous.score, null, 1)}`,
+                },
+              ]
+            : []),
         ],
       },
     ],
@@ -152,6 +133,103 @@ async function tailor({ masterResume, jobPosting, confirmedSkills, addAllSkills 
   if (message.stop_reason === "max_tokens") throw new Error("Response was cut off; try a shorter posting.");
   const text = message.content.filter((b) => b.type === "text").map((b) => b.text).join("");
   return JSON.parse(text);
+}
+
+const GRADER_SYSTEM = `You are the screening stage of a hiring pipeline: an ATS keyword ranker (Workday/Greenhouse/Lever style) plus an AI resume screener plus a busy recruiter. Score the candidate's resume and cover letter against the job posting.
+
+Be strict and calibrated, not encouraging. 100 means nothing could be improved; 90+ means this would be in the top few percent of applicants; 70 means borderline. Score only what is on the page.
+For every sub-score below 100, the fixes must say exactly what to change (quote the line, give the replacement wording or the missing keyword).`;
+
+const SCORE_SCHEMA = {
+  type: "object",
+  additionalProperties: false,
+  required: ["atsScore", "coverLetterScore"],
+  properties: {
+    atsScore: {
+      type: "object",
+      additionalProperties: false,
+      required: [
+        "overall",
+        "keywordMatch",
+        "requiredSkills",
+        "preferredSkills",
+        "titleAlignment",
+        "experienceRelevance",
+        "formatting",
+        "verdict",
+        "topFixes",
+      ],
+      properties: {
+        overall: { type: "integer", description: "0-100 weighted overall pass likelihood" },
+        keywordMatch: { type: "integer", description: "0-100 share of posting keywords present verbatim" },
+        requiredSkills: { type: "integer", description: "0-100 coverage of required qualifications" },
+        preferredSkills: { type: "integer", description: "0-100 coverage of preferred qualifications" },
+        titleAlignment: { type: "integer", description: "0-100 how closely past titles/summary match the target title" },
+        experienceRelevance: { type: "integer", description: "0-100 years and type of experience vs the posting" },
+        formatting: { type: "integer", description: "0-100 how cleanly an ATS will parse it" },
+        verdict: { type: "string", description: "One sentence: likely to pass the screen, borderline, or likely filtered out, and why" },
+        topFixes: { type: "array", items: { type: "string" }, description: "Specific changes that would raise the score most, most impactful first" },
+      },
+    },
+    coverLetterScore: {
+      type: "object",
+      additionalProperties: false,
+      required: ["overall", "personalization", "requirementMatch", "persuasiveness", "clarity", "fixes"],
+      properties: {
+        overall: { type: "integer", description: "0-100" },
+        personalization: { type: "integer", description: "0-100 specific to this company and role, not generic" },
+        requirementMatch: { type: "integer", description: "0-100 maps the candidate's experience to the posting's top requirements" },
+        persuasiveness: { type: "integer", description: "0-100 would make a hiring manager want to interview" },
+        clarity: { type: "integer", description: "0-100 concise, error-free, well structured" },
+        fixes: { type: "array", items: { type: "string" } },
+      },
+    },
+  },
+};
+
+async function grade({ jobPosting, resume, coverLetter }) {
+  const stream = client.beta.messages.stream({
+    model: MODEL,
+    max_tokens: 16000,
+    betas: ["server-side-fallback-2026-07-01"],
+    fallbacks: "default",
+    output_config: { effort: "high", format: { type: "json_schema", schema: SCORE_SCHEMA } },
+    system: GRADER_SYSTEM,
+    messages: [
+      {
+        role: "user",
+        content: `JOB POSTING:\n<<<\n${jobPosting}\n>>>\n\nRESUME:\n<<<\n${resume}\n>>>\n\nCOVER LETTER:\n<<<\n${coverLetter}\n>>>`,
+      },
+    ],
+  });
+  const message = await stream.finalMessage();
+  if (message.stop_reason === "refusal") throw new Error("The model declined this request.");
+  return JSON.parse(message.content.filter((b) => b.type === "text").map((b) => b.text).join(""));
+}
+
+const TARGET_SCORE = 95;
+const MAX_REVISIONS = 3;
+
+function combined(score) {
+  return score.atsScore.overall * 0.7 + score.coverLetterScore.overall * 0.3;
+}
+
+// Draft, grade with an independent grader, then revise on the grader's feedback
+// until both documents reach the target or revisions run out. Keeps the best draft.
+async function optimize(params) {
+  let draft = await tailor(params);
+  let score = await grade({ ...params, ...draft });
+  let best = { draft, score };
+  const history = [{ resume: score.atsScore.overall, coverLetter: score.coverLetterScore.overall }];
+
+  for (let i = 0; i < MAX_REVISIONS; i++) {
+    if (best.score.atsScore.overall >= TARGET_SCORE && best.score.coverLetterScore.overall >= TARGET_SCORE) break;
+    draft = await tailor({ ...params, previous: { draft: best.draft, score: best.score } });
+    score = await grade({ ...params, ...draft });
+    history.push({ resume: score.atsScore.overall, coverLetter: score.coverLetterScore.overall });
+    if (combined(score) > combined(best.score)) best = { draft, score };
+  }
+  return { ...best.draft, ...best.score, history };
 }
 
 const CONTACTS_SYSTEM = `You help a job seeker find the right people to follow up with about a specific job application.
@@ -247,7 +325,7 @@ async function draftFollowUps({ contactName, contactRole, company, jobTitle, res
 const ROUTES = {
   "/api/tailor": (b) => {
     if (!b.masterResume?.trim() || !b.jobPosting?.trim()) throw badRequest("Master resume and job posting are required.");
-    return tailor(b);
+    return optimize(b);
   },
   "/api/contacts": (b) => {
     if (!b.company?.trim() || !b.jobPosting?.trim()) throw badRequest("Company and job posting are required.");
@@ -309,5 +387,8 @@ const server = http.createServer(async (req, res) => {
     send(res, 404, { error: "Not found" });
   }
 });
+
+// Optimizing a resume takes several model calls; allow up to 20 minutes per request.
+server.requestTimeout = 20 * 60 * 1000;
 
 server.listen(PORT, () => console.log(`Resume Tailor running at http://localhost:${PORT}`));

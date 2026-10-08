@@ -85,7 +85,7 @@ $("#addAll").addEventListener("change", (e) => store.set("addAllSkills", e.targe
 async function runTailor(confirmedSkills = []) {
   const masterResume = $("#master").value;
   const jobPosting = $("#posting").value;
-  setStatus("Tailoring... this usually takes under a minute.");
+  setStatus("Tailoring, scoring and rewriting until it scores 95+... this takes about 2–5 minutes.");
   const result = await api("/api/tailor", {
     masterResume,
     jobPosting,
@@ -113,7 +113,7 @@ function renderResult() {
   const r = current.result;
   $("#results").hidden = false;
   $("#resultTitle").textContent = `${r.jobTitle} — ${r.company}`;
-  renderScore(r.atsScore);
+  renderScore(r.atsScore, r.coverLetterScore, r.history);
   $("#applyResult").hidden = true;
   $("#resumeOut").value = r.resume;
   $("#coverOut").value = r.coverLetter;
@@ -147,7 +147,7 @@ function scoreClass(n) {
   return n >= 80 ? "good" : n >= 60 ? "mid" : "low";
 }
 
-function renderScore(score) {
+function renderScore(score, cover, history) {
   const card = $("#scoreCard");
   card.replaceChildren();
   if (!score) return;
@@ -179,9 +179,43 @@ function renderScore(score) {
   verdict.textContent = score.verdict;
 
   card.append(big, bars, verdict);
-  if (score.topFixes?.length) {
+
+  if (cover) {
+    const cl = document.createElement("div");
+    cl.className = `score-big ${scoreClass(cover.overall)}`;
+    cl.innerHTML = "<span></span><small>cover letter</small>";
+    cl.querySelector("span").textContent = cover.overall;
+    const clBars = document.createElement("div");
+    clBars.className = "score-bars";
+    [
+      ["Personalization", cover.personalization],
+      ["Requirement match", cover.requirementMatch],
+      ["Persuasiveness", cover.persuasiveness],
+      ["Clarity", cover.clarity],
+    ].forEach(([label, n]) => {
+      const d = document.createElement("div");
+      d.innerHTML = `<div><span></span> <strong></strong></div><div class="bar"><span></span></div>`;
+      d.querySelector("span").textContent = label;
+      d.querySelector("strong").textContent = n;
+      d.querySelector(".bar span").style.width = `${n}%`;
+      clBars.append(d);
+    });
+    const spacer = document.createElement("p");
+    spacer.className = "verdict";
+    card.append(cl, clBars, spacer);
+  }
+
+  if (history?.length > 1) {
+    const h = document.createElement("p");
+    h.className = "verdict hint";
+    h.textContent = `Optimized over ${history.length - 1} rewrite${history.length > 2 ? "s" : ""}: ` +
+      history.map((x) => `${x.resume}/${x.coverLetter}`).join(" → ") + " (resume/cover letter)";
+    card.append(h);
+  }
+  const fixes = [...(score.topFixes || []), ...(cover?.fixes || [])].slice(0, 4);
+  if (fixes.length && score.overall < 100) {
     const ul = document.createElement("ul");
-    score.topFixes.forEach((f) => ul.append(Object.assign(document.createElement("li"), { textContent: f })));
+    fixes.forEach((f) => ul.append(Object.assign(document.createElement("li"), { textContent: f })));
     card.append(ul);
   }
 }
@@ -423,6 +457,7 @@ function saveCurrent() {
     url: current.jobUrl,
     posting: current.posting,
     atsScore: r.atsScore,
+    coverLetterScore: r.coverLetterScore,
     resume: $("#resumeOut").value,
     coverLetter: $("#coverOut").value,
     contacts: current.contacts,
@@ -490,7 +525,7 @@ function renderTracker() {
     const open = Object.assign(document.createElement("button"), { textContent: "Open" });
     open.addEventListener("click", () => {
       current = {
-        result: { company: job.company, jobTitle: job.jobTitle, resume: job.resume, coverLetter: job.coverLetter, matchedKeywords: [], gaps: [], atsScore: job.atsScore, notes: "" },
+        result: { company: job.company, jobTitle: job.jobTitle, resume: job.resume, coverLetter: job.coverLetter, matchedKeywords: [], gaps: [], atsScore: job.atsScore, coverLetterScore: job.coverLetterScore, notes: "" },
         posting: job.posting || "",
         savedId: job.id,
         jobUrl: job.url,
